@@ -9,10 +9,23 @@ if (!defined('ABSPATH')) {
 
 class AAP_Admin {
     
+    private static $instance = null;
+    
+    public static function get_instance() {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+    
+    private function __construct() {
+        $this->init_hooks();
+    }
+    
     /**
      * Initialize admin
      */
-    public static function init() {
+    private function init_hooks() {
         add_action('admin_menu', array(__CLASS__, 'add_menu_pages'));
         add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_scripts'));
         add_action('admin_init', array(__CLASS__, 'register_settings'));

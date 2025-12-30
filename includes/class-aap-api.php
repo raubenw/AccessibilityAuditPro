@@ -9,15 +9,28 @@ if (!defined('ABSPATH')) {
 
 class AAP_API {
     
+    private static $instance = null;
+    
     /**
      * API Namespace
      */
     const NAMESPACE = 'accessibility-audit/v1';
     
+    public static function get_instance() {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+    
+    private function __construct() {
+        $this->init_hooks();
+    }
+    
     /**
      * Initialize API
      */
-    public static function init() {
+    private function init_hooks() {
         add_action('rest_api_init', array(__CLASS__, 'register_routes'));
     }
     

@@ -9,10 +9,23 @@ if (!defined('ABSPATH')) {
 
 class AAP_Ajax {
     
+    private static $instance = null;
+    
+    public static function get_instance() {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+    
+    private function __construct() {
+        $this->init_hooks();
+    }
+    
     /**
      * Initialize AJAX handlers
      */
-    public static function init() {
+    private function init_hooks() {
         // Public AJAX actions (for both logged in and not logged in users)
         $public_actions = array(
             'aap_create_order',

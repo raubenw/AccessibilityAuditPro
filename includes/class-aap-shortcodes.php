@@ -9,10 +9,23 @@ if (!defined('ABSPATH')) {
 
 class AAP_Shortcodes {
     
+    private static $instance = null;
+    
+    public static function get_instance() {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+    
+    private function __construct() {
+        $this->init_hooks();
+    }
+    
     /**
      * Initialize shortcodes
      */
-    public static function init() {
+    private function init_hooks() {
         add_shortcode('accessibility_audit', array(__CLASS__, 'render_audit_form'));
         add_shortcode('accessibility_audit_pricing', array(__CLASS__, 'render_pricing_table'));
         add_shortcode('accessibility_audit_preview', array(__CLASS__, 'render_preview_scanner'));
